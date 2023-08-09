@@ -1,5 +1,5 @@
 Github Repo:
-https://github.com/IsmailMuhammed2019/kubernetes_resources
+https://github.com/IsmailMuhammed2019/kubernetes_repo
 
 Chocolatey Link:
 https://chocolatey.org/install
