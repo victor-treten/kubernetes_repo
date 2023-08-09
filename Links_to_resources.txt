@@ -1,0 +1,15 @@
+Github Repo:
+https://github.com/IsmailMuhammed2019/kubernetes_resources
+
+Chocolatey Link:
+https://chocolatey.org/install
+https://community.chocolatey.org/packages
+
+Vagrant Cloud Link:
+https://app.vagrantup.com/
+
+Video1 Link:
+https://drive.google.com/file/d/1EZi2lZ3eHjRDX3va2_JWGoPOFTmKq5dD/view?usp=sharing
+
+Video2 Link: 
+https://drive.google.com/file/d/1E4HAtYwLhiP8u6kNk6cPk5C2lhMuLhAh/view?usp=sharing
