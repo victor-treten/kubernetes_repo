@@ -90,6 +90,9 @@ Vagrant.configure("2") do |config|
                       php-mysql \
                       php-xml \
                       php-zip -y
+
+      # Restarting apache
+        systemctl reload apache2
       # Creating wordpress folder and downloading wordpress
       sudo mkdir -p /srv/www
       sudo chown www-data: /srv/www
@@ -146,7 +149,7 @@ EOF
       sudo -u www-data sed -i 's/password_here/admin123/' /srv/www/wordpress/wp-config.php
 
       # Restart mysql service
-      systemclt restart mysql
+      systemctl restart mysql
 
       # Restart apache2 service
       systemctl restart apache2
