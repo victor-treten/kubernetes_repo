@@ -2,9 +2,6 @@
 
 ## This is a script to host a website with html ##
 
-# Change user to root
-sudo su
-
 # Installing Dependencies
 echo "###########################################"
 echo "Installing packages"
