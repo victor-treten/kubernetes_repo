@@ -3,8 +3,8 @@
 # Variable Delcaration
 PACKAGES="httpd wget unzip"
 SVC=httpd
-URL="https://www.tooplate.com/zip-templates/2135_mini_finance.zip"
-ART_NAME="2135_mini_finance"
+URL="https://www.tooplate.com/zip-templates/2100_artist.zip"
+ART_NAME="2100_artist"
 TEMPDIR="/tmp/webfiles"
 
 
