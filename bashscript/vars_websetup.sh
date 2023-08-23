@@ -46,7 +46,7 @@ echo
 echo "###########################################"
 echo "restarting httpd service"
 echo "###########################################"
-sudo systemclt restart $SVC
+sudo systemctl restart $SVC
 echo
 
 #clean up
