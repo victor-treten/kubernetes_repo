@@ -2,11 +2,14 @@
 
 ## This is a script to host a website with html ##
 
+# Change user to root
+sudo su
+
 # Installing Dependencies
 echo "###########################################"
 echo "Installing packages"
 echo "###########################################"
-sudo yum install wget unzip httpd -y
+sudo yum install wget unzip httpd -y > /dev/null
 echo
 
 
@@ -26,8 +29,8 @@ mkdir -p /tmp/webfiles
 cd /tmp/webfiles
 echo
 
-wget https://www.tooplate.com/zip-templates/2135_mini_finance.zip
-unzip 2135_mini_finance.zip
+wget https://www.tooplate.com/zip-templates/2135_mini_finance.zip > /dev/null
+unzip 2135_mini_finance.zip > /dev/null
 sudo cp -r 2135_mini_finance/* /var/www/html
 echo
 
@@ -35,14 +38,14 @@ echo
 echo "###########################################"
 echo "restarting httpd service"
 echo "###########################################"
-systemclt restart httpd
+sudo systemclt restart httpd
 echo
 
 #clean up
 echo "###########################################"
 echo "removing temporary files"
 echo "###########################################"
-rm -fr /tmp/webfiles
+sudo rm -fr /tmp/webfiles
 echo
 
 
@@ -53,7 +56,7 @@ echo "###########################################"
 echo "###########################################"
 echo "Restart httpd again"
 echo "###########################################"
-systemctl restart httpd
+sudo systemctl restart httpd
 
 echo "###########################################"
 echo "Print out the ip address"
