@@ -37,10 +37,27 @@ mkdir -p /tmp/webfiles
 cd /tmp/webfiles
 echo
 
+# Downloading Artifacts zip file
+echo "###########################################"
+echo "Downloading Artifacts"
+echo "###########################################"
 wget $1 > /dev/null
+echo
+
+# unzip Downloaded Artifacts zip file
+echo "###########################################"
+echo "unzip Downloaded Artifacts zip file"
+echo "###########################################"
 unzip $2.zip > /dev/null
+echo
+
+# copy unzip folder artifact files to webserver directory
+echo "###########################################"
+echo "copy unzip folder artifact files to webserver directory"
+echo "###########################################"
 sudo cp -r $2/* /var/www/html
 echo
+
 
 # Bounce Service
 echo "###########################################"
@@ -71,3 +88,5 @@ echo "###########################################"
 echo "Print out the ip address"
 echo "###########################################"
 ip addr show
+
+
