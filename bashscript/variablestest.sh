@@ -1,9 +1,9 @@
 #!/bin/bash
 
-intA=20
-floatB=20.20
-stringA="first_string"
-DIR_PATH="/tmp"
+intA=2000000000
+floatB=2100000.000222423
+stringA="Demo Scripts"
+DIR_PATH="/var/www"
 
 echo "############################"
 echo "Value of inter A is $intA"

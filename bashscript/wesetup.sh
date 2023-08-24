@@ -26,8 +26,23 @@ mkdir -p /tmp/webfiles
 cd /tmp/webfiles
 echo
 
+# Downloading artifacts file 
+echo "###########################################"
+echo "Downloading artifacts file"
+echo "###########################################"
 wget https://www.tooplate.com/zip-templates/2135_mini_finance.zip > /dev/null
+
+
+# Unziping the artifacts
+echo "###########################################"
+echo "unziping the artifiact"
+echo "###########################################"
 unzip 2135_mini_finance.zip > /dev/null
+
+# Copying the artifacts files to web server directory
+echo "###########################################"
+echo "opying the artifacts files to web server directory"
+echo "###########################################"
 sudo cp -r 2135_mini_finance/* /var/www/html
 echo
 
