@@ -66,7 +66,7 @@ else
    PACKAGE="apache2 wget unzip"
    SVC="apache2"
 
-   echo "Running Setup on CentOS"
+   echo "Running Setup on ubunut"
    # Installing Dependencies
    echo "########################################"
    echo "Installing packages."
