@@ -1,0 +1,53 @@
+---
+- name: Setup DbServer
+  hosts: dbservers
+  become: yes
+  tasks:
+    - name: Install MySQL DbServer
+      yum: 
+        name: mariadb-server
+        state: present
+
+    - name: install python mysql
+      yum:
+        name: MySQL-python
+        state: present
+
+    - name: Start and enable mariadb service
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+
+    - name: Create a new database with name 'accounts'
+      mysql_db:
+        name: 
+          - accounts
+          - staffs
+        state: present
+    
+    - name: Create database user with name 'karo' and password 'tin@me42.' with all database privileges
+      mysql_user:
+        name: karo
+        password: tin@me42.
+        priv: '*.*:ALL'
+        state: present
+
+    - name: Create database user with name 'victor' and password 'wearecode1' with all database privileges
+      mysql_user:
+        name: victor
+        password: wearecode1
+        priv: '*.*:ALL'
+        state: present
+
+    - name: Removes anonymous user account for localhost
+      mysql_user:
+        name: ''
+        host: localhost
+        state: absent
+
+    - name: Removes all anonymous user accounts
+        mysql_user:
+        name: ''
+        host_all: yes
+        state: absent
