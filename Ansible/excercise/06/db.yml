@@ -2,8 +2,20 @@
 - name: Setup DbServer
   hosts: dbservers
   # become: yes
-  
+  vars:
+    dbname: network
+    dbuser: tech
+    dbpass: admin123
   tasks:
+    - debug:
+        var: dbname
+
+    - debug: 
+        var: dbuser
+
+    - debug: 
+        var: dbpass
+
     - name: Install MySQL DbServer
       yum: 
         name: mariadb-server
@@ -22,33 +34,13 @@
 
     - name: Create a new database with name 'accounts'
       mysql_db:
-        name: 
-          - accounts
-          - staffs
+        name: "{{group}}"
         state: present
     
     - name: Create database user with name 'karo' and password 'tin@me42.' with all database privileges
       mysql_user:
-        name: karo
-        password: tin@me42.
+        name: "{{dbuser}}"
+        password: "{{dbpass}}"
         priv: '*.*:ALL'
         state: present
 
-    - name: Create database user with name 'victor' and password 'wearecode1' with all database privileges
-      mysql_user:
-        name: victor
-        password: wearecode1
-        priv: '*.*:ALL'
-        state: present
-
-    - name: Removes anonymous user account for localhost
-      mysql_user:
-        name: ''
-        host: localhost
-        state: absent
-
-    - name: Removes all anonymous user accounts
-      mysql_user:
-        name: ''
-        host_all: yes
-        state: absent
