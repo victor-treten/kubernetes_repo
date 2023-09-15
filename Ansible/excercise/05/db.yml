@@ -1,7 +1,7 @@
 ---
 - name: Setup DbServer
   hosts: dbservers
-  become: yes
+  # become: yes
   tasks:
     - name: Install MySQL DbServer
       yum: 
