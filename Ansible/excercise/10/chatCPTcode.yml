@@ -1,0 +1,66 @@
+---
+- name: Deploy different web templates servers
+  hosts: all
+  become: yes
+  vars:
+    ubuntu_packages:
+      - apache2
+      - wget
+      - zip
+      - unzip
+    centos_packages:
+      - httpd
+      - wget
+      - zip
+      - unzip
+    web_templates:
+      node01:
+        url: 'https://www.tooplate.com/zip-templates/2098_health.zip'
+        art_name: '2098_health'
+      node02:
+        url: 'https://www.tooplate.com/zip-templates/2131_wedding_lite.zip'
+        art_name: '2131_wedding_lite'
+      node03:
+        url: 'https://www.tooplate.com/zip-templates/2130_waso_strategy.zip'
+        art_name: '2130_waso_strategy'
+    TEMPDIR: "/tmp/webfiles"
+    DESTINATION: "/var/www/html"
+
+  tasks:
+    - name: Include OS-specific tasks
+      include_tasks: "{{ ansible_os_family }}.yaml"
+      when: ansible_os_family in ['RedHat', 'Debian']
+
+    - name: Create temporary directory
+      ansible.builtin.file:
+        path: "{{ TEMPDIR }}"
+        state: directory
+
+    - name: Download and unzip templates
+      ansible.builtin.get_url:
+        url: "{{ web_templates[inventory_hostname].url }}"
+        dest: "{{ TEMPDIR }}/{{ web_templates[inventory_hostname].art_name }}.zip"
+        mode: '0644'
+      register: unzip_result
+      when: inventory_hostname in web_templates
+
+    - name: Unzip the downloaded template
+      ansible.builtin.unarchive:
+        src: "{{ TEMPDIR }}/{{ web_templates[inventory_hostname].art_name }}.zip"
+        dest: "{{ TEMPDIR }}"
+        remote_src: yes
+      register: unzip_result
+      when: inventory_hostname in web_templates
+
+    - name: Copy the contents to {{ DESTINATION }}
+      ansible.builtin.copy:
+        src: "{{ TEMPDIR }}/{{ web_templates[inventory_hostname].art_name }}/"
+        dest: "{{ DESTINATION }}"
+      when: unzip_result.changed
+
+  handlers:
+    - name: Restart web server
+      service:
+        name: "{{ 'httpd' if ansible_os_family == 'RedHat' else 'apache2' }}"
+        state: restarted
+        enabled: yes
