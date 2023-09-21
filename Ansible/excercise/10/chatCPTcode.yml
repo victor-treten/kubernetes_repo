@@ -34,7 +34,7 @@
     - name: Create temporary directory
       ansible.builtin.file:
         path: "{{ TEMPDIR }}"
-        state: directory
+      state: directory
 
     - name: Download and unzip templates
       ansible.builtin.get_url:
@@ -60,7 +60,7 @@
 
   handlers:
     - name: Restart web server
-      service:
+      ansible.builtin.service:
         name: "{{ 'httpd' if ansible_os_family == 'RedHat' else 'apache2' }}"
         state: restarted
         enabled: yes

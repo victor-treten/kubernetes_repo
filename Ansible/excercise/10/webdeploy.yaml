@@ -58,6 +58,7 @@
       ansible.builtin.file:
         path: /tmp/webfiles
         state: directory
+        mode: '0755'
 
     - name: Download the template on node01
       ansible.builtin.get_url:
