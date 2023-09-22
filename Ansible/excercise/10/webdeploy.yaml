@@ -105,25 +105,6 @@
       register: unzip_result
       when: ansible_hostname == "node03"
 
-    #This is copy section
-    # - name: Copy the contents to /var/www/html on node01
-    #   copy:
-    #     src: "/tmp/webfiles/{{ ART_NAME1 }}/"
-    #     dest: /var/www/html/
-    #   when: ansible_hostname == "node01"
-
-    # - name: Copy the contents to /var/www/html on node02
-    #   copy:
-    #     src: "/tmp/webfiles/{{ ART_NAME2 }}/"
-    #     dest: /var/www/html/
-    #     when: ansible_hostname == "node02"
-
-    # - name: Copy the contents to /var/www/html on node03
-    #   copy:
-    #     src: "/tmp/webfiles/{{ ART_NAME3 }}/"
-    #     dest: /var/www/html/
-    #   when: ansible_hostname == "node03"
-
     - name: Copy the contents to /var/www/html on node01
       shell: cp -r /tmp/webfiles/{{ ART_NAME1 }}/* /var/www/html/
       when: ansible_hostname == "node01"
