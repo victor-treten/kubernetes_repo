@@ -6,9 +6,9 @@
     URL1: 'https://www.tooplate.com/zip-templates/2098_health.zip'
     URL2: 'https://www.tooplate.com/zip-templates/2131_wedding_lite.zip'
     URL3: 'https://www.tooplate.com/zip-templates/2130_waso_strategy.zip'
-    ART_NAME1: '2098_health'
-    ART_NAME2: '2131_wedding_lite'
-    ART_NAME3: '2130_waso_strategy'
+    ART_NAME1: "2098_health"
+    ART_NAME2: "2131_wedding_lite"
+    ART_NAME3: "2130_waso_strategy"
     TEMPDIR: "/tmp/webfiles"
     DESTINATION: "/var/www/html"
 
@@ -22,30 +22,30 @@
       yum:
         name: "{{item}}"
         state: present
-      when: ansible_distribution == "Centos"
       loop:
         - httpd
         - wget
         - zip
         - unzip
-  
+      when: ansible_distribution == "CentOS"
+
     - name: Restarting and enable web server
       service: 
         name: httpd
         state: restarted
         enabled: yes
-      when: ansible_distribution == "Centos"
+      when: ansible_distribution == "CentOS"
 
     - name: setup web servers by installing apache2, wget, zip and unzip on ubuntu
       apt:
         name: "{{item}}"
         state: present
-      when: ansible_distribution == "Ubuntu"
       loop:
         - apache2
         - wget
         - zip
         - unzip
+      when: ansible_distribution == "Ubuntu"
   
     - name: Restarting and enable web server
       service: 
@@ -55,72 +55,93 @@
       when: ansible_distribution == "Ubuntu"
 
     - name: Create temporary directory
-      ansible.builtin.file:
-        path: /tmp/webfiles
+      file:
+        path: /tmp/webfiles/
         state: directory
         mode: '0755'
 
     - name: Download the template on node01
-      ansible.builtin.get_url:
+      get_url:
         url: "{{URL1}}" # Replace with the actual URL
-        dest: /tmp/webfiles/"{{ART_NAME1}}".zip
-        mode: '0644'
+        dest: "/tmp/webfiles/"
+        mode: '0755'
       when: ansible_hostname == "node01"
 
     - name: Download the template on node02
-      ansible.builtin.get_url:
+      get_url:
         url: "{{URL2}}" # Replace with the actual URL
-        dest: /tmp/webfiles/"{{ART_NAME2}}".zip
-        mode: '0644'
+        dest: "/tmp/webfiles/"
+        mode: '0755'
       when: ansible_hostname == "node02"
 
     - name: Download the template on node03
-      ansible.builtin.get_url:
+      get_url:
         url: "{{URL3}}" # Replace with the actual URL
-        dest: /tmp/webfiles/"{{ART_NAME3}}".zip
-        mode: '0644'
+        dest: "/tmp/webfiles/"
+        mode: '0755'
       when: ansible_hostname == "node03"
 
     - name: Unzip the downloaded template on node01
-      ansible.builtin.unarchive:
-        src: /tmp/webfiles/"{{ART_NAME1}}".zip
+      unarchive:
+        src: "/tmp/webfiles/{{ART_NAME1}}.zip"
         dest: /tmp/webfiles
         remote_src: yes
       register: unzip_result
+      when: ansible_hostname == "node01"
 
     - name: Unzip the downloaded template on node02
-      ansible.builtin.unarchive:
-        src: /tmp/webfiles/"{{ART_NAME2}}".zip
+      unarchive:
+        src: "/tmp/webfiles/{{ART_NAME2}}.zip"
         dest: /tmp/webfiles
         remote_src: yes
       register: unzip_result
+      when: ansible_hostname == "node02"
 
     - name: Unzip the downloaded template on node03
-      ansible.builtin.unarchive:
-        src: /tmp/webfiles/"{{ART_NAME3}}".zip
+      unarchive:
+        src: "/tmp/webfiles/{{ART_NAME3}}.zip"
         dest: /tmp/webfiles
         remote_src: yes
       register: unzip_result
+      when: ansible_hostname == "node03"
+
+    #This is copy section
+    # - name: Copy the contents to /var/www/html on node01
+    #   copy:
+    #     src: "/tmp/webfiles/{{ ART_NAME1 }}/"
+    #     dest: /var/www/html/
+    #   when: ansible_hostname == "node01"
+
+    # - name: Copy the contents to /var/www/html on node02
+    #   copy:
+    #     src: "/tmp/webfiles/{{ ART_NAME2 }}/"
+    #     dest: /var/www/html/
+    #     when: ansible_hostname == "node02"
+
+    # - name: Copy the contents to /var/www/html on node03
+    #   copy:
+    #     src: "/tmp/webfiles/{{ ART_NAME3 }}/"
+    #     dest: /var/www/html/
+    #   when: ansible_hostname == "node03"
 
     - name: Copy the contents to /var/www/html on node01
-      ansible.builtin.copy:
-        src: /tmp/webfiles/"{{ART_NAME1}}"/
-        dest: /var/www/html/
-      when: unzip_result.changed
+      shell: cp -r /tmp/webfiles/{{ ART_NAME1 }}/* /var/www/html/
+      when: ansible_hostname == "node01"
 
     - name: Copy the contents to /var/www/html on node02
-      ansible.builtin.copy:
-        src: /tmp/webfiles/"{{ART_NAME2}}"/
-        dest: /var/www/html/
-      when: unzip_result.changed
-    
+      shell: cp -r /tmp/webfiles/{{ ART_NAME2 }}/* /var/www/html/
+      when: ansible_hostname == "node02"
+
     - name: Copy the contents to /var/www/html on node03
-      ansible.builtin.copy:
-        src: /tmp/webfiles/"{{ART_NAME3}}"/
-        dest: /var/www/html/
-      when: unzip_result.changed
+      shell: cp -r /tmp/webfiles/{{ ART_NAME3 }}/* /var/www/html/
+      when: ansible_hostname == "node03"
 
   handlers:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu"
+
     - name: Restart web server on centos
       service: 
         name: httpd
