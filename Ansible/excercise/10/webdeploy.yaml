@@ -21,7 +21,7 @@
     - name: setup web servers by installing httpd, wget, zip and unzip on centos
       yum:
         name: "{{item}}"
-        state: present
+        state: absent
       loop:
         - httpd
         - wget
@@ -39,7 +39,7 @@
     - name: setup web servers by installing apache2, wget, zip and unzip on ubuntu
       apt:
         name: "{{item}}"
-        state: present
+        state: absent
       loop:
         - apache2
         - wget

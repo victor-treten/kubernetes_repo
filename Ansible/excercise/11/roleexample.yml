@@ -1,0 +1,6 @@
+---
+- name: Configure Nginx
+  hosts: node02
+  become: yes
+  roles:
+    - nginx_deploy

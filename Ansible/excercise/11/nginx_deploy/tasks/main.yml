@@ -1,0 +1,16 @@
+---
+- name: Install nginx
+  apt: 
+    name: nginx
+    state: present
+
+- name: copy Nginx configuration
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+- name: Restart web server on centos
+  service: 
+    name: ginx
+    state: restarted
+    enabled: yes

@@ -1,0 +1,22 @@
+
+Anatomy of ansible role
+
+
+my_role/                ## my project that is named any name you want
+  --tasks/              ## task contains the main task for the role
+    --main.yml  
+  --files/              ## Stores static files to be copied to target hosts
+    --config_file.conf  
+  --templates/          ## holds jinja2 templates for dynamic file generation
+    --template_file.j2
+  --vars/               ## Stores variables specific to the role
+    --main.yml
+  --defaults/           ## Default values for role variables
+    --main.yml
+  --meta                ## Metadata about the role and its dependencies
+    main.yml
+
+
+
+
+    Configure a Basic Web server with ansible
