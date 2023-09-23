@@ -16,12 +16,13 @@
     - name: Update package cache
       apt:
         update_cache: yes
+      notify: update cache
       when: ansible_distribution == "Ubuntu"
 
     - name: setup web servers by installing httpd, wget, zip and unzip on centos
       yum:
         name: "{{item}}"
-        state: absent
+        state: present
       loop:
         - httpd
         - wget
@@ -34,12 +35,14 @@
         name: httpd
         state: restarted
         enabled: yes
+      notify: Restart httpd
       when: ansible_distribution == "CentOS"
+      
 
     - name: setup web servers by installing apache2, wget, zip and unzip on ubuntu
       apt:
         name: "{{item}}"
-        state: absent
+        state: present
       loop:
         - apache2
         - wget
@@ -52,6 +55,7 @@
         name: apache2
         state: restarted
         enabled: yes
+      notify: Restart apache2
       when: ansible_distribution == "Ubuntu"
 
     - name: Create temporary directory
@@ -118,21 +122,18 @@
       when: ansible_hostname == "node03"
 
   handlers:
-    - name: Update package cache
+    - name: update cache
       apt:
         update_cache: yes
-      when: ansible_distribution == "Ubuntu"
 
-    - name: Restart web server on centos
+    - name: Restart httpd
       service: 
         name: httpd
         state: restarted
         enabled: yes
-      when: ansible_distribution == "Centos"
 
-    - name: Restart web server on centos
+    - name: Restart apache2
       service: 
         name: apache2
         state: restarted
         enabled: yes
-      when: ansible_distribution == "Ubuntu"
