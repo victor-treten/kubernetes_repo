@@ -1,0 +1,10 @@
+---
+- name: Install WordPress
+  hosts: node03
+  become: yes
+
+  roles:
+    - webserver
+    - database
+    - wordpress
+    - site-config
