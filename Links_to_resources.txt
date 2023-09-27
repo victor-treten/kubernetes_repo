@@ -10,7 +10,6 @@ Vagrant Cloud Link:
 https://app.vagrantup.com/
 
 
-
 Video 01 Link:
 https://drive.google.com/file/d/1wgYxYYJoatbjlTO0AY04gM1_YegB4aeF/view?usp=sharing
 
